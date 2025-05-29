@@ -1,8 +1,14 @@
 import React from 'react'
 
+import UserCard from '../components/dashboard/UserCard';
+import ModuleSection from '../components/dashboard/ModuleSection';
+
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <div className='flex flex-col'>
+      <UserCard />
+      <ModuleSection />
+    </div>
   )
 }
 
