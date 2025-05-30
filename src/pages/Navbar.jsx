@@ -14,6 +14,7 @@ function Navbar() {
     return (
 
         <div className='relative '>
+
             <div className='sticky top-0 left-0 z-20  float-left h-screen flex flex-col items-center p-2 bg-slate-900'>    
                 <Link to='/'>
                     <div className='my-3 relative text-white hover:bg-slate-500 px-[10px] py-[10px] flex items-center rounded-lg'>
