@@ -1,8 +1,10 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CircularProgress } from '@mui/material';
+
+import { setIsLoginErrorFalse } from '../store/auth-store';
 
 import login_img from "../assets/login_img.gif";
 
@@ -14,8 +16,7 @@ function Login() {
 
   const dispatch = useDispatch();
 
-  const { login_pending, is_login_error } = useSelector((state) => state.authSlice);
-  const { toggle_message } = useSelector((state) => state.messageBoxSlice);
+  const { login_pending, is_login_error, login_message } = useSelector((state) => state.authSlice);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +26,13 @@ function Login() {
     dispatch(AuthService.login({ email, password }));
   }
 
+  useEffect(() => {
+    if (is_login_error) {
+      setTimeout(() => {
+        dispatch(setIsLoginErrorFalse());
+      }, 2000);
+    }
+  }, [is_login_error]);
 
   return (
     <div
@@ -33,7 +41,7 @@ function Login() {
     >
       
       {
-        is_login_error &&  <MessageBox message={'Invalid Credentials'} color={'bg-red-500'} />
+        is_login_error &&  <MessageBox message={login_message} color={'bg-red-500'} />
       }
 
       <div className="flex flex-row justify-center items-center rounded-xl p-4 shadow-sm">

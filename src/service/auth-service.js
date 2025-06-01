@@ -4,27 +4,75 @@ import $api from '../http';
 
 class AuthService {
 
-    static login = createAsyncThunk('/auth/login', 
-        async (credentials) => {
-            let data = null;
-            console.log('credentials is ', credentials);
-            await $api.post('/auth/login', credentials)
-            .then(response => {
-                console.log('reponse is ', response);
-                data.payload = response.data;
-                data.status = response.status;
-                return data;
-            })
-            .catch(error => {
-                console.log('error os ',error);
-                data.payload = error.response.data;
-                data.status = error.response.status;
-                return data;
-            });
-            return data;
-            
-    });
+    static login = createAsyncThunk(
+        '/auth/login',
+        async (credentials, thunkAPI) => {
+            try {
+                const response = await $api.post('/auth/login', credentials);
+                // Return data on success
+                return {
+                    payload: response.data,
+                    status: response.status,
+                };
+            } catch (error) {
+                // Extract error details
+                const errorData = error.response?.data || { message: error.message };
+                const statusCode = error.response?.status || 500;
 
+                // Pass custom error payload
+                return thunkAPI.rejectWithValue({
+                    payload: errorData,
+                    status: statusCode,
+                });
+            }
+        });
+
+    static refresh = createAsyncThunk(
+        '/auth/refresh',
+        async () => {
+            try{
+                const response = await $api.post('/auth/refresh');
+                return {
+                    payload: response.data,
+                    status: response.status,
+                };
+            }
+            catch (error) {
+                const errorData = error.response?.data || { message: error.message };
+                const statusCode = error.response?.status || 500;
+
+                // Pass custom error payload
+                return thunkAPI.rejectWithValue({
+                    payload: errorData,
+                    status: statusCode,
+                });
+            }
+        }
+    )
+
+    static userLogout = createAsyncThunk(
+       '/users/logout',
+       async ()=>{
+        try{
+                const response = await $api.post('/auth/logout');
+                return {
+                    payload: response.data,
+                    status: response.status,
+                };
+            }
+            catch (error) {
+                const errorData = error.response?.data || { message: error.message };
+                const statusCode = error.response?.status || 500;
+
+                // Pass custom error payload
+                return thunkAPI.rejectWithValue({
+                    payload: errorData,
+                    status: statusCode,
+                });
+            }
+        
+       }
+   )
 
 }
 
