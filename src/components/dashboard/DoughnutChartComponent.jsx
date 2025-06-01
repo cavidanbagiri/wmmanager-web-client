@@ -45,7 +45,7 @@ const DoughnutChartComponent = () => {
   };
 
   return (
-    <div style={{ width: '500px', height: '500px', margin: 'auto' }} className='bg-white rounded-lg'>
+    <div style={{ width: '500px', height: '500px', margin: 'auto' }} className='bg-white rounded-lg w-1/3 '>
       <Doughnut data={data} options={options} />
     </div>
   );

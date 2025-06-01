@@ -1,7 +1,4 @@
 
+1 - Show all selecting data in warehouse side - Stopped
 
-1 - After user login, need to store the token and some user information in local storage - Working
-
-2 - Check before  user login, check password length and something is email or not - Stopped
-
-1 - After again login, the token models, refresh token doesnt change - Stopping
+2 - Add link to warehouse modules - Working
