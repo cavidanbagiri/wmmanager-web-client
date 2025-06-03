@@ -1,37 +1,41 @@
-import React from "react";
+
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+
+import WarehouseService from '../service/warehouse-service';
+
 import TitleComponent from "../components/warehouse/TitleComponent";
 import TableHeaderComponent from "../components/warehouse/TableHeaderComponent";
 import TableBodyComponent from "../components/warehouse/TableBodyComponent";
+import SelectedBottomButtons from '../components/warehouse/SelectedItemsButton';
 
 function Warehouse() {
+
+    const dispatch = useDispatch();
+
+    const selected_items = useSelector((state) => state.warehouseSlice.selected_items);
+
+    useEffect(() => {
+        dispatch(WarehouseService.getWarehouse())
+    }, []);
+
     return (
-        <div>
+        <div className=''>
             <TitleComponent />
 
-            <div className="flex flex-col mt-10 ">
-                <div className="flex flex-row justify-between items-center ">
-                    <span className="text-4xl font-medium my-2 ml-1">
-                        Table
-                    </span>
-
-                    <div
-                        style={{
-                            fontFamily: "Mona Sans",
-                            fontWeight: "600",
-                        }}
-                        className="text-xs"
-                    >
-                        <button className="border p-2 mx-2 rounded-xs text-black hover:cursor-pointer hover:shadow-lg">Add Stock</button>
-                        <button className="border p-2 mx-2 rounded-xs text-black hover:cursor-pointer hover:shadow-lg">Update</button>
-                        <button className="border p-2 mx-2 rounded-xs text-black hover:cursor-pointer hover:shadow-lg">Delete</button>
-                    </div>
-                </div>
-
+            <div className="flex flex-col mt-5 ">
+                
                 <table className="w-full">
                     <TableHeaderComponent />
                     <TableBodyComponent />
                 </table>
+            
             </div>
+
+            {
+                selected_items.length > 0 && <SelectedBottomButtons />
+            }
+
         </div>
     );
 }
